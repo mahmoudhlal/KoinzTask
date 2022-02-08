@@ -4,14 +4,16 @@ import com.example.data.entities.PhotoEntity
 import com.example.domain.entities.Photo
 
 class PhotoEntityMapper {
-    fun toPhotoEntity(photo: Photo): PhotoEntity {
-        return PhotoEntity(
-            id = photo.id,
-            secret = photo.secret,
-            server = photo.server,
-            farm = photo.farm,
-            imageUrl = photo.imgUrl
-        )
+    fun toPhotoEntity(photo: List<Photo>): List<PhotoEntity> {
+        return photo.map {
+            PhotoEntity(
+                id = it.id,
+                secret = it.secret,
+                server = it.server,
+                farm = it.farm,
+                imageUrl = it.imgUrl
+            )
+        }
     }
 
     fun toPhoto(photoEntity: PhotoEntity): Photo {

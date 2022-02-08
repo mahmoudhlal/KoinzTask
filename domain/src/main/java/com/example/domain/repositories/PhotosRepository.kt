@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhotosRepository {
 
-    suspend fun getRemotePhotos() : Result<List<Photo>>
+    suspend fun getRemotePhotos(page:Int) : Result<List<Photo>>
 
     suspend fun getLocalPhotos() : Flow<List<Photo>>
 
