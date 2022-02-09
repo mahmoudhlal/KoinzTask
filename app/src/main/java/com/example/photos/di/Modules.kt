@@ -4,10 +4,7 @@ import com.example.data.api.NetworkModule
 import com.example.data.db.PhotosDatabase
 import com.example.data.mappers.PhotoApiResponseMapper
 import com.example.data.mappers.PhotoEntityMapper
-import com.example.data.repositories.photos.PhotosLocalDataSource
-import com.example.data.repositories.photos.PhotosLocalDataSourceImpl
-import com.example.data.repositories.photos.PhotosRemoteDataSourceImpl
-import com.example.data.repositories.photos.PhotosRepositoryImpl
+import com.example.data.repositories.photos.*
 import com.example.domain.repositories.PhotosRepository
 import com.example.domain.usecases.GetLocalPhotosUseCase
 import com.example.domain.usecases.GetRemotePhotosUseCase
@@ -22,16 +19,19 @@ import org.koin.dsl.module
 
 
 val viewModelModule = module {
-    viewModel { PhotosViewModel(get(),get(),get()) }
+    viewModel {
+        PhotosViewModel(getCashedPhotosUseCase = get(),
+            getPhotosUseCase = get(),
+            savePhotosUseCase = get()) }
 }
 
 val useCasesModule = module {
 
-    factory { GetLocalPhotosUseCase(get()) }
+    single { GetLocalPhotosUseCase(get()) }
 
-    factory { GetRemotePhotosUseCase(get()) }
+    single { GetRemotePhotosUseCase(get()) }
 
-    factory { SavePhotosUseCase(get()) }
+    single { SavePhotosUseCase(get()) }
 }
 
 val repositoryModule = module {
@@ -39,7 +39,7 @@ val repositoryModule = module {
         PhotosRepositoryImpl(get(),get())
     }
 
-    factory {
+    factory<PhotosRemoteDataSource> {
         PhotosRemoteDataSourceImpl(
             get(),
             get()

@@ -11,6 +11,7 @@ class PhotoEntityMapper {
                 secret = it.secret,
                 server = it.server,
                 farm = it.farm,
+                title = it.title,
                 imageUrl = it.imgUrl
             )
         }
@@ -22,6 +23,7 @@ class PhotoEntityMapper {
             photoEntity.secret,
             photoEntity.server,
             photoEntity.farm,
+            photoEntity.title,
             photoEntity.imageUrl,
         )
     }

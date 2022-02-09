@@ -21,6 +21,7 @@ data class ApiPhoto(
     val id:String,
     val secret:String,
     val server:String,
+    val title:String,
     val farm:String
 )
 
