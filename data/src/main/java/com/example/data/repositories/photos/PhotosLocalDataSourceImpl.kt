@@ -17,12 +17,10 @@ class PhotosLocalDataSourceImpl(
         photoDao.savePhotos(photoEntityMapper.toPhotoEntity(photos))
     }
 
-    override suspend fun getPhotos(): Flow<List<Photo>> {
+    override suspend fun getPhotos(): List<Photo> {
         val savedPhotosFlow = photoDao.getSavedPhotos()
-        return savedPhotosFlow.map { list ->
-            list.map { element ->
-                photoEntityMapper.toPhoto(element)
-            }
+        return savedPhotosFlow.map {
+            photoEntityMapper.toPhoto(it)
         }
     }
 

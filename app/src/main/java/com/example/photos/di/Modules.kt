@@ -14,21 +14,27 @@ import com.example.domain.usecases.GetRemotePhotosUseCase
 import com.example.domain.usecases.SavePhotosUseCase
 import com.example.photos.ui.photos.PhotosViewModel
 import kotlinx.coroutines.Dispatchers
-import org.koin.android.BuildConfig
+import com.example.photos.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
 
-val appModule = module {
-
+val viewModelModule = module {
     viewModel { PhotosViewModel(get(),get(),get()) }
+}
+
+val useCasesModule = module {
 
     factory { GetLocalPhotosUseCase(get()) }
-    factory { GetRemotePhotosUseCase(get()) }
-    factory { SavePhotosUseCase(get()) }
 
+    factory { GetRemotePhotosUseCase(get()) }
+
+    factory { SavePhotosUseCase(get()) }
+}
+
+val repositoryModule = module {
     factory<PhotosRepository> {
         PhotosRepositoryImpl(get(),get())
     }
@@ -40,23 +46,32 @@ val appModule = module {
         )
     }
 
-    single {
-        PhotoApiResponseMapper()
-    }
-
-    single {
-        NetworkModule().createPhotosApi(BuildConfig.BASE_URL)
-    }
-
     factory<PhotosLocalDataSource> {
         PhotosLocalDataSourceImpl(get() , Dispatchers.IO , get())
     }
 
+}
+
+val mapperModule = module {
     single {
-        PhotosDatabase.getDatabase(androidContext()).photoDao()
+        PhotoApiResponseMapper()
     }
+
 
     single {
         PhotoEntityMapper()
+    }
+}
+
+val networkModule = module {
+    single {
+        NetworkModule().createPhotosApi(BuildConfig.BASE_URL)
+    }
+
+}
+
+val dbModule = module {
+    single {
+        PhotosDatabase.getDatabase(androidContext()).photoDao()
     }
 }

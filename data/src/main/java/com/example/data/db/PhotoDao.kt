@@ -1,5 +1,6 @@
 package com.example.data.db
 
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.data.entities.PhotoEntity
 import kotlinx.coroutines.flow.Flow
@@ -11,5 +12,5 @@ interface PhotoDao {
     suspend fun savePhotos(photos: List<PhotoEntity>)
 
     @Query("SELECT * FROM photo")
-    fun getSavedPhotos(): Flow<List<PhotoEntity>>
+    suspend fun getSavedPhotos(): List<PhotoEntity>
 }
