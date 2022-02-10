@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         photosViewModel.getPhotos().observe(this, Observer {
             if (it != null)
-                (binding.rvPhotos.adapter as PhotosAdapter).submitList(it)
+                    (binding.rvPhotos.adapter as PhotosAdapter).submitList(AdsBannerFactory.generateAds(it))
         })
 
         photosViewModel.getProgressStatus().observe(this, Observer {
