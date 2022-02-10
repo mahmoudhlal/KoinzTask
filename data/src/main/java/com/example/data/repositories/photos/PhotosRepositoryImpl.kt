@@ -13,8 +13,8 @@ class PhotosRepositoryImpl(
         return remoteDataSource.getPhotos(page)
     }
 
-    override suspend fun getLocalPhotos(): List<Photo> {
-        return localDataSource.getPhotos()
+    override suspend fun getLocalPhotos(page:Int): List<Photo> {
+        return localDataSource.getPhotos(page)
     }
 
     override suspend fun savePhotos(photos: List<Photo>) {

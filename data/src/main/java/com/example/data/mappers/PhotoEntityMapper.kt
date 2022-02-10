@@ -12,6 +12,7 @@ class PhotoEntityMapper {
                 server = it.server,
                 farm = it.farm,
                 title = it.title,
+                page = it.page,
                 imageUrl = it.imgUrl
             )
         }
@@ -24,6 +25,7 @@ class PhotoEntityMapper {
             photoEntity.server,
             photoEntity.farm,
             photoEntity.title,
+            photoEntity.page,
             photoEntity.imageUrl,
         )
     }

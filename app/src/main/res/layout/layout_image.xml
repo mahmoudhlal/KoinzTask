@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="photo"
             type="com.example.domain.entities.Photo" />
@@ -30,7 +29,8 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background" />
+                src="@{photo.imgUrl}"
+                />
 
             <TextView
                 android:id="@+id/tvTitle"

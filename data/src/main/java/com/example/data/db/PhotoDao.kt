@@ -11,6 +11,6 @@ interface PhotoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun savePhotos(photos: List<PhotoEntity>)
 
-    @Query("SELECT * FROM photo")
-    suspend fun getSavedPhotos(): List<PhotoEntity>
+    @Query("SELECT * FROM photo WHERE page = :pageNum")
+    suspend fun getSavedPhotos(pageNum : Int): List<PhotoEntity>
 }

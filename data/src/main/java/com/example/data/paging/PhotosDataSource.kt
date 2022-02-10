@@ -25,13 +25,19 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Photo>) {
         scope.launch {
-            when(val photos = getPhotosUseCase.invoke(1)){
-                is Result.Success -> {
-                    savePhotosUseCase.invoke(photos.data)
-                    progressLiveStatus.postValue(photos)
-                    callback.onResult(photos.data,  params.key + 1)
+            val cachedPhotos = getCachedPhotosUseCase.invoke(params.key)
+            if (cachedPhotos.isEmpty()) {
+                when (val photos = getPhotosUseCase.invoke(params.key)) {
+                    is Result.Success -> {
+                        savePhotosUseCase.invoke(photos.data)
+                        progressLiveStatus.postValue(photos)
+                        callback.onResult(photos.data, params.key + 1)
+                    }
+                    is Result.Error -> progressLiveStatus.postValue(photos)
                 }
-                is Result.Error -> progressLiveStatus.postValue(photos)
+            }else{
+                callback.onResult(cachedPhotos, params.key + 1)
+                progressLiveStatus.postValue(Result.Success(cachedPhotos))
             }
         }
     }
@@ -42,7 +48,7 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
         callback: LoadInitialCallback<Int, Photo>
     ) {
         scope.launch {
-            val cachedPhotos = getCachedPhotosUseCase.invoke()
+            val cachedPhotos = getCachedPhotosUseCase.invoke(1)
             if (cachedPhotos.isEmpty()) {
                 when(val photos = getPhotosUseCase.invoke(1)){
                     is Result.Success -> {
@@ -52,8 +58,10 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
                     }
                     is Result.Error -> progressLiveStatus.postValue(photos)
                 }
-            }else
+            }else{
+                callback.onResult(cachedPhotos, null, 2)
                 progressLiveStatus.postValue(Result.Success(cachedPhotos))
+            }
         }
     }
 

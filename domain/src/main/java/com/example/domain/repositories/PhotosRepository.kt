@@ -8,7 +8,7 @@ interface PhotosRepository {
 
     suspend fun getRemotePhotos(page:Int) : Result<List<Photo>>
 
-    suspend fun getLocalPhotos() : List<Photo>
+    suspend fun getLocalPhotos(page:Int) : List<Photo>
 
     suspend fun savePhotos(photos : List<Photo>)
 

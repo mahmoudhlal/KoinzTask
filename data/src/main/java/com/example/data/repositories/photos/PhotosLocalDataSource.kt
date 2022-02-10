@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhotosLocalDataSource {
     suspend fun savePhotos(photos : List<Photo>)
-    suspend fun getPhotos() : List<Photo>
+    suspend fun getPhotos(page:Int) : List<Photo>
 }

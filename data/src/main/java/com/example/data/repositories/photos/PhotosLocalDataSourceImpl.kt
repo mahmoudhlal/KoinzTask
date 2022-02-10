@@ -4,8 +4,6 @@ import com.example.data.db.PhotoDao
 import com.example.data.mappers.PhotoEntityMapper
 import com.example.domain.entities.Photo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class PhotosLocalDataSourceImpl(
@@ -17,8 +15,8 @@ class PhotosLocalDataSourceImpl(
         photoDao.savePhotos(photoEntityMapper.toPhotoEntity(photos))
     }
 
-    override suspend fun getPhotos(): List<Photo> {
-        val savedPhotosFlow = photoDao.getSavedPhotos()
+    override suspend fun getPhotos(page:Int): List<Photo> {
+        val savedPhotosFlow = photoDao.getSavedPhotos(page)
         return savedPhotosFlow.map {
             photoEntityMapper.toPhoto(it)
         }

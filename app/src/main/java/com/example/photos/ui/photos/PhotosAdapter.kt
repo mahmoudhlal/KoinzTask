@@ -5,22 +5,17 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.domain.entities.Photo
-import com.example.photos.R
 import com.example.photos.databinding.LayoutImageBinding
+import com.example.photos.loadImage
 
 class PhotosAdapter : PagedListAdapter<Photo, PhotosAdapter.ImageViewHolder>(DiffUtilCallBack()) {
 
-    inner class ImageViewHolder(private val binding: LayoutImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
+    inner class ImageViewHolder(private val binding: LayoutImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo) {
             binding.photo = photo
-            binding.ivImage.load(photo.imgUrl){
-                crossfade(true)
-                placeholder(R.drawable.ic_launcher_foreground)
-            }
-            binding.executePendingBindings()
+            //loadImage(binding.ivImage , "https://www.egypttoday.com/siteimages/Larg/69521.jpg")
         }
     }
 

@@ -13,6 +13,7 @@ class PhotoApiResponseMapper {
                 it.server,
                 it.farm,
                 it.title,
+                response.photos.page.toString(),
                 ImageUrlFactory.generateImgUrl(it)
             )
         }
