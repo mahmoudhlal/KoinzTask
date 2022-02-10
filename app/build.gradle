@@ -65,9 +65,6 @@ dependencies {
 
     // Coil for image caching
     implementation("io.coil-kt:coil:1.4.0")
-    //Glide
-    implementation "com.github.bumptech.glide:glide:4.12.0"
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Koin main features for Android
     implementation "io.insert-koin:koin-android:3.1.5"

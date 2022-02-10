@@ -1,5 +1,6 @@
 package com.example.photos.ui.photos
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.common.Result
+import com.example.domain.entities.Photo
 import com.example.photos.R
 import com.example.photos.databinding.ActivityMainBinding
+import com.example.photos.ui.photos.imageviewer.ImageViewerActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        binding.rvPhotos.adapter = PhotosAdapter()
+        binding.rvPhotos.adapter = PhotosAdapter {openImageViewer(it)}
     }
 
     private fun displayLoading() {
@@ -53,5 +56,11 @@ class MainActivity : AppCompatActivity() {
     private fun displayError(errorMessage: String) {
         hideLoading()
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    private fun openImageViewer(photo : Photo){
+        val intent = Intent(this , ImageViewerActivity::class.java)
+        intent.putExtra("photo" , photo.imgUrl)
+        startActivity(intent)
     }
 }

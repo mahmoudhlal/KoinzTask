@@ -9,13 +9,13 @@ import com.example.domain.entities.Photo
 import com.example.photos.databinding.LayoutImageBinding
 import com.example.photos.loadImage
 
-class PhotosAdapter : PagedListAdapter<Photo, PhotosAdapter.ImageViewHolder>(DiffUtilCallBack()) {
+class PhotosAdapter(private val onItemClick : (Photo) -> Unit) : PagedListAdapter<Photo, PhotosAdapter.ImageViewHolder>(DiffUtilCallBack()) {
 
 
     inner class ImageViewHolder(private val binding: LayoutImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo) {
             binding.photo = photo
-            //loadImage(binding.ivImage , "https://www.egypttoday.com/siteimages/Larg/69521.jpg")
+            binding.root.setOnClickListener {onItemClick(photo)}
         }
     }
 
