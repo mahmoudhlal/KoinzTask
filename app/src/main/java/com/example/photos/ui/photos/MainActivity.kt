@@ -3,6 +3,8 @@ package com.example.photos.ui.photos
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,13 +31,27 @@ class MainActivity : AppCompatActivity() {
 
         photosViewModel.getProgressStatus().observe(this, Observer {
             when(it){
-                is Result.Error -> Log.d("FFFF" , it.msg)
-                is Result.Success -> Log.d("FFFF" , it.data.toString())
+                is Result.Error -> displayError(it.msg)
+                is Result.Success -> hideLoading()
+                is Result.Loading -> displayLoading()
             }
         })
     }
 
     private fun init() {
         binding.rvPhotos.adapter = PhotosAdapter()
+    }
+
+    private fun displayLoading() {
+        binding.progressID.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.progressID.visibility = View.GONE
+    }
+
+    private fun displayError(errorMessage: String) {
+        hideLoading()
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 }

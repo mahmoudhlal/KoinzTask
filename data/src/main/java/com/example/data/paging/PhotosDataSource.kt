@@ -27,6 +27,7 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
         scope.launch {
             val cachedPhotos = getCachedPhotosUseCase.invoke(params.key)
             if (cachedPhotos.isEmpty()) {
+                progressLiveStatus.postValue(Result.Loading(listOf()))
                 when (val photos = getPhotosUseCase.invoke(params.key)) {
                     is Result.Success -> {
                         savePhotosUseCase.invoke(photos.data)
@@ -57,6 +58,7 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
                         callback.onResult(photos.data, null, 2)
                     }
                     is Result.Error -> progressLiveStatus.postValue(photos)
+                    is Result.Loading -> progressLiveStatus.postValue(photos)
                 }
             }else{
                 callback.onResult(cachedPhotos, null, 2)
@@ -64,6 +66,8 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
             }
         }
     }
+
+
 
 
 }
