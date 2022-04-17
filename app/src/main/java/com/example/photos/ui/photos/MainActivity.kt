@@ -24,12 +24,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         init()
+        viewModelObserver()
+    }
 
+    private fun viewModelObserver(){
         photosViewModel.getPhotos().observe(this, Observer {
             if (it != null)
-                    (binding.rvPhotos.adapter as PhotosAdapter).submitList(AdsBannerFactory.generateAds(it))
+                (binding.rvPhotos.adapter as PhotosAdapter).submitList(it)
         })
 
         photosViewModel.getProgressStatus().observe(this, Observer {

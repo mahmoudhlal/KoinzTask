@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.entities.Photo
 import com.example.photos.databinding.LayoutImageBinding
-import com.example.photos.loadImage
 
 class PhotosAdapter(private val onItemClick : (Photo) -> Unit) : PagedListAdapter<Photo, PhotosAdapter.ImageViewHolder>(DiffUtilCallBack()) {
-
 
     inner class ImageViewHolder(private val binding: LayoutImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo) {

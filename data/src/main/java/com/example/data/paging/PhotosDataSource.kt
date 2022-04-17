@@ -34,7 +34,7 @@ class PhotosDataSource(private val getCachedPhotosUseCase: GetLocalPhotosUseCase
                         progressLiveStatus.postValue(photos)
                         callback.onResult(photos.data, params.key + 1)
                     }
-                    is Result.Error -> progressLiveStatus.postValue(photos)
+                    else -> progressLiveStatus.postValue(photos)
                 }
             }else{
                 callback.onResult(cachedPhotos, params.key + 1)
